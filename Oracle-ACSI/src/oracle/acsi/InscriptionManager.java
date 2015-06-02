@@ -5,6 +5,8 @@
  */
 package oracle.acsi;
 
+import java.sql.Date;
+
 /**
  *
  * @author clem-62
@@ -17,5 +19,24 @@ public class InscriptionManager {
             instance = new InscriptionManager();
         }
         return instance;
+    }
+    
+    public void inscrire(Utilisateur user){
+        //TO DO
+    }
+    
+    public int getInscritsDepuis(Date date){
+        //TO DO
+        return 0;
+    }
+    
+    public int getNbVisiteurParCP(String codePostal){
+        //TO DO
+        return 0;
+    }
+    
+    public int getNbVisiteurParArticle(String refArticle){
+        //TO DO
+        return 0;
     }
 }
