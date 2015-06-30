@@ -29,8 +29,23 @@ public class ArticleManager {
         //INSERT DANS ARTICLE + DANS GESTION
     }
     
+    //PAS FINI
     public void supprimer(String refArticle){
-        //TO DO
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        //SUPPRESSION
+        connexion.getResult("DELETE FROM ARTICLE WHERE ART_REF LIKE '" + refArticle + "';");
+        
+        //INSERTION DE L'OPERATION
+        connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
+                + " VALUES("
+                + ""//LA DATE,
+                + "SUPPR,"
+                + ""//USR_ID,
+                + refArticle + ","
+                + ");");
+        
+        connexion.close();
     }
     
     public void modifier(Article art1, Article art2){
