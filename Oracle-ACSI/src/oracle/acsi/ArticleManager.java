@@ -5,6 +5,11 @@
  */
 package oracle.acsi;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author clem-62
@@ -21,6 +26,7 @@ public class ArticleManager {
     
     public void enregistrer(Article art){
         //TO DO
+        //INSERT DANS ARTICLE + DANS GESTION
     }
     
     public void supprimer(String refArticle){
@@ -32,17 +38,65 @@ public class ArticleManager {
     }
     
     public int getNbCrees(){
-        //TO DO
-        return 0;
+        int nbVues = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
+                + "WHERE A.GEST_ID = G.GEST_ID"
+                + "AND GEST_OP LIKE 'CREAT'"
+                + "GROUP BY A.ART_REF;");
+        
+        try {
+            resultat.first();
+            nbVues = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbVues;
     }
     
     public int getNbModifies(){
-        //TO DO
-        return 0;
+        int nbVues = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
+                + "WHERE A.GEST_ID = G.GEST_ID"
+                + "AND GEST_OP LIKE 'MODIF'"
+                + "GROUP BY A.ART_REF;");
+        
+        try {
+            resultat.first();
+            nbVues = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbVues;
     }
     
     public int getNbSupprimes(){
-        //TO DO
-        return 0;
+        int nbVues = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
+                + "WHERE A.GEST_ID = G.GEST_ID"
+                + "AND GEST_OP LIKE 'SUPPR'"
+                + "GROUP BY A.ART_REF;");
+        
+        try {
+            resultat.first();
+            nbVues = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbVues;
     }
 }

@@ -5,7 +5,11 @@
  */
 package oracle.acsi;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,16 +35,43 @@ public class VisiteManager {
     }
     
     public int getNbVuesTotal(){
-        //TO DO
-        return 0;
+        int nbVues = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT SUM(CPTR_COUNT) FROM CONSULTER;");
+        
+        try {
+            resultat.first();
+            nbVues = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbVues;
     }
     
     public int getNbVues(String refArticle){
-        //TO DO
-        return 0;
+        int nbVues = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT SUM(CPTR_COUNT) FROM CONSULTER"
+                + " WHERE ART_REF LIKE '" + refArticle + "';");
+        
+        try {
+            resultat.first();
+            nbVues = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbVues;
     }
     
-    public void getHitParage(int place1, int place2){
+    public void getHitParade(int place1, int place2){
         //TO DO
         //Changer le type de retour
     }

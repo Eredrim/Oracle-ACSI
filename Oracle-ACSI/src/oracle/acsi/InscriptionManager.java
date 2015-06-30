@@ -6,6 +6,10 @@
 package oracle.acsi;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,8 +35,21 @@ public class InscriptionManager {
     }
     
     public int getNbVisiteurParCP(String codePostal){
-        //TO DO
-        return 0;
+        int nbRow = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT count(*) FROM UTILISATEUR WHERE USR_CP LIKE '" + codePostal + "';");
+        
+        try {
+            resultat.first();
+            nbRow = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbRow;
     }
     
     public int getNbVisiteurParArticle(String refArticle){
