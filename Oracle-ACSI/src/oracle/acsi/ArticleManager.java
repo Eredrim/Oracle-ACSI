@@ -59,7 +59,7 @@ public class ArticleManager {
                 //INSERTION DE L'OPERATION
                 connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
                         + " VALUES("
-                        + System.currentTimeMillis() + ","
+                        + "GETDATE(),"
                         + "SUPPR,"
                         + ""//USR_ID,
                         + art.getReference() + ","
@@ -81,7 +81,7 @@ public class ArticleManager {
             //INSERTION DE L'OPERATION
             connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
                     + " VALUES("
-                    + System.currentTimeMillis() + ","
+                    + "GETDATE(),"
                     + "SUPPR,"
                     + ""//USR_ID,
                     + refArticle + ","
@@ -121,7 +121,7 @@ public class ArticleManager {
             //INSERTION DE L'OPERATION
             connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
                     + " VALUES("
-                    + System.currentTimeMillis() + ","
+                    + "GETDATE(),"
                     + "MODIF,"
                     + ""//USR_ID,
                     + refArt1 + ","

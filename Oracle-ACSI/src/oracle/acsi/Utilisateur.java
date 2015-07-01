@@ -81,7 +81,7 @@ public class Utilisateur {
                 //INSERTION DE L'OPERATION
                 connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
                         + " VALUES("
-                        + System.currentTimeMillis() + ", "
+                        + "GETDATE(), "
                         + "SUPPR, "
                         + this.id + ", "
                         + "NULL"
