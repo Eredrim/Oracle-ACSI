@@ -50,9 +50,9 @@ public class ArticleManager {
             {
                 //INSERTION
                 connexion.getResult("INSERT INTO ARTICLE (ART_REF, ART_LIBELLE, ART_DESCRIPTION, ART_PRIX) VALUES"
-                        + "'" + art.getReference() + "'"
-                        + "'" + art.getLibelle() + "'"
-                        + "'" + art.getDescription() + "'"
+                        + "'" + art.getReference() + "',"
+                        + "'" + art.getLibelle() + "',"
+                        + "'" + art.getDescription() + "',"
                         + "'" + art.getPrix() + "'"
                         +";");
 
@@ -193,7 +193,7 @@ public class ArticleManager {
         return nbVues;
     }
     
-    List<Object[]> getAll()
+    public List<Object[]> getAll()
     {
         List<Object[]> articles = new ArrayList<>();
         MySQLCon connexion = MySQLCon.getInstance();
@@ -212,7 +212,7 @@ public class ArticleManager {
 
                     //Création de l'image
                     ImageIcon image = new ImageIcon(reference + ".png");
-                    Object[] article = {reference, libelle, prix, description};
+                    Object[] article = {reference, libelle, prix, description, image};
                     articles.add(article);
                     cursor.next();
                 }

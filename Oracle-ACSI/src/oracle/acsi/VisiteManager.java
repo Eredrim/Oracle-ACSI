@@ -8,8 +8,11 @@ package oracle.acsi;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -26,12 +29,15 @@ public class VisiteManager {
     }
     
     public void enregistrerVisite(Visite myVisite){
-        //TO DO
-    }
-    
-    public Time getTempsMoyen(){
-        //TO DO
-        return null;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        connexion.getResult("UPDATE CONSULTER SET "
+                + " ART_REF = '" + myVisite.getRefArticle() + "' "
+                + ", USR_ID = '" + myVisite.getIdUtilisateur() + "' "
+                + " , CPTR_COUNT = (CPTR_COUNT + 1)"
+                + ";");
+        
+        connexion.close();
     }
     
     public int getNbVuesTotal(){
@@ -71,8 +77,42 @@ public class VisiteManager {
         return nbVues;
     }
     
-    public void getHitParade(int place1, int place2){
-        //TO DO
-        //Changer le type de retour
+    public List<Object[]> getHitParade(int place1, int place2){
+        List<Object[]> articles = new ArrayList<>();
+        MySQLCon connexion = MySQLCon.getInstance();
+        ResultSet cursor;
+
+        try {
+            cursor = connexion.getResult("SELECT * FROM ARTICLE A, ("
+                        + "SELECT A.ART_REF, SUM(C.CPTR_COUNT) as SOMME FROM ARTICLE A, CONSULTER C "
+                        + " WHERE A.ART_REF = C.ART_REF "
+                        + " GROUP BY A.ART_REF"
+                    + ") VUES"
+                    + "WHERE A.ART_REF = VUES.ART_REF"
+                    + "ORDER BY SOMME;");
+
+            if (cursor.first()){
+                while(!cursor.isAfterLast()){
+                    String reference = cursor.getString("ART_REF");
+                    String libelle = cursor.getString("ART_LIBELLE");
+                    float prix = cursor.getInt("ART_PRIX");
+                    String description = cursor.getString("ART_DESCRIPTION");
+
+                    //Création de l'image
+                    ImageIcon image = new ImageIcon(reference + ".png");
+                    
+                    Object[] article = {reference, libelle, prix, description, image};
+                    articles.add(article);
+                    cursor.next();
+                }
+             }
+            cursor.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        connexion.close();
+        
+        return articles;
     }
 }

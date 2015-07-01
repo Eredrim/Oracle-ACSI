@@ -5,6 +5,11 @@
  */
 package oracle.acsi;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author clem-62
@@ -42,5 +47,46 @@ public class Utilisateur {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public void inscrire()
+    {
+        MySQLCon connexion = MySQLCon.getInstance();
+
+            int nbRow = 0;
+            
+            //Vérification que l'article n'existe pas
+            ResultSet resultat;
+            resultat = connexion.getResult("SELECT COUNT(*) FROM UTILISATEUR "
+                    + "WHERE USR_ID = '" + this.id +"';");
+            try {
+                resultat.first();
+                nbRow = resultat.getInt(1);
+            } catch (SQLException ex) {
+                Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(!(nbRow > 0))
+            {
+                //INSERTION
+                connexion.getResult("INSERT INTO UTILISATEUR "
+                        + "(USR_ID, USR_EMAIL, USR_PASSWD, USR_CP, USR_ISADMIN) VALUES"
+                        + "'" + this.id + "',"
+                        + "'" + this.email + "',"
+                        + "'" + this.password + "',"
+                        + "'" + this.codePostal + "',"
+                        + "'" + this.admin + "'"
+                        +";");
+
+                //INSERTION DE L'OPERATION
+                connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
+                        + " VALUES("
+                        + System.currentTimeMillis() + ", "
+                        + "SUPPR, "
+                        + this.id + ", "
+                        + "NULL"
+                        + ");");
+            }
+            connexion.close();
     }
 }

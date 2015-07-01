@@ -26,12 +26,26 @@ public class InscriptionManager {
     }
     
     public void inscrire(Utilisateur user){
-        //TO DO
+        user.inscrire();
     }
     
     public int getInscritsDepuis(Date date){
-        //TO DO
-        return 0;
+        int nbRow = 0;
+        MySQLCon connexion = MySQLCon.getInstance();
+        
+        ResultSet resultat;
+        resultat = connexion.getResult("SELECT count(*) FROM GESTION"
+                + "WHERE GEST_DATE > TO_DATE(" + date.toString() + ",'YYYY-MM-DD');");
+        
+        try {
+            resultat.first();
+            nbRow = resultat.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        connexion.close();
+        return nbRow;
     }
     
     public int getNbVisiteurParCP(String codePostal){
