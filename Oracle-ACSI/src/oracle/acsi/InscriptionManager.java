@@ -51,9 +51,4 @@ public class InscriptionManager {
         connexion.close();
         return nbRow;
     }
-    
-    public int getNbVisiteurParArticle(String refArticle){
-        //TO DO
-        return 0;
-    }
 }
