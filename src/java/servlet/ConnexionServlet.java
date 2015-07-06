@@ -61,7 +61,8 @@ public class ConnexionServlet extends HttpServlet {
             
             //Définition de l'utilisateur courant dans une variable de session
             request.getSession().setAttribute();
-            HttpSession session = request.getSession(); 
+            HttpSession session = request.getSession();
+            session.setAttribute("user",login);
         }
     }
 

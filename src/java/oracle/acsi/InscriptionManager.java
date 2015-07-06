@@ -17,8 +17,10 @@ import java.util.logging.Logger;
  */
 public class InscriptionManager {
     private static InscriptionManager instance = null;
-    protected InscriptionManager() {}   //Pour empêcher l'instanciation autrement qu'avec getInstance()
-    public InscriptionManager getInstance(){
+    
+    private InscriptionManager() {}   //Pour empêcher l'instanciation autrement qu'avec getInstance()
+    
+    public static InscriptionManager getInstance(){
         if(instance == null){
             instance = new InscriptionManager();
         }

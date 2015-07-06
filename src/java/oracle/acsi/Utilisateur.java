@@ -55,7 +55,7 @@ public class Utilisateur {
 
             int nbRow = 0;
             
-            //Vérification que l'article n'existe pas
+            //Vérification que l'utilisateur n'existe pas
             ResultSet resultat;
             resultat = connexion.getResult("SELECT COUNT(*) FROM UTILISATEUR "
                     + "WHERE USR_ID = '" + this.id +"';");
