@@ -53,3 +53,16 @@ a:hover{
 #content{
     margin: 25px;
 }
+
+#tableProduits{
+    width: 90%;
+    margin: auto;
+}
+
+.miniature{
+    text-align: center;
+}
+
+.miniature > img{
+    height: 50px;
+}

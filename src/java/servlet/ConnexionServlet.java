@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import oracle.acsi.*;
 
 /**
@@ -59,8 +60,6 @@ public class ConnexionServlet extends HttpServlet {
             user.setEmail(login);
             InscriptionManager.getInstance().inscrire(user);    //Si l'utilisateur n'existe pas il est crée.
             
-            //Définition de l'utilisateur courant dans une variable de session
-            request.getSession().setAttribute();
             HttpSession session = request.getSession();
             session.setAttribute("user",login);
         }
