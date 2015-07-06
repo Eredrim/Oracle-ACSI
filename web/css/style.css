@@ -1,1 +1,55 @@
+body{
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 15px;
+    background: #eee;
+}
 
+#container{
+    background: white;
+    width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+}
+
+#header{
+    width: calc(100% - 40px);
+    padding: 20px;
+}
+
+#logo{
+    float: left;
+    padding-right: 20px;
+}
+
+#tHeader1{
+    font-size: 22px;
+}
+
+#tHeader2{
+    font-size: 18px;
+}
+
+#redHR{
+    background: red;
+    height: 5px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+#connectionLink{
+    float: right;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+#content{
+    margin: 25px;
+}
