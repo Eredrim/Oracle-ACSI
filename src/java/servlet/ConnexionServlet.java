@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import oracle.acsi.*;
 
 /**
  *
@@ -31,7 +32,6 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -45,10 +45,24 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         String login = request.getParameter("login");
         String codePostal = request.getParameter("code postal");
         
+        if(Integer.parseInt(codePostal) < 01000 || Integer.parseInt(codePostal) > 97999)
+        {
+            //Mauvais code postal, envoyer chier.
+        }
+        else
+        {
+            Utilisateur user = new Utilisateur();
+            user.setPassword(codePostal);
+            user.setEmail(login);
+            InscriptionManager.getInstance().inscrire(user);    //Si l'utilisateur n'existe pas il est crée.
+            
+            //Définition de l'utilisateur courant dans une variable de session
+            request.getSession().setAttribute();
+            HttpSession session = request.getSession(); 
+        }
     }
 
     /**
