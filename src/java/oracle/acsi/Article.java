@@ -15,6 +15,14 @@ public class Article {
     private String libelle;
     private String description;
 
+    public Article(String reference, float prix, String libelle, String description) {
+        this.reference = reference;
+        this.prix = prix;
+        this.libelle = libelle;
+        this.description = description;
+    }
+    
+
     public String getReference() {
         return reference;
     }
