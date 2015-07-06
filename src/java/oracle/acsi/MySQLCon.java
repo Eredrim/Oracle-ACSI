@@ -42,6 +42,11 @@ public class MySQLCon {
 
     public ResultSet getResult(String request) {
         try {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
             con = DriverManager.getConnection(url, user, password);
             st = con.createStatement();
             rs = st.executeQuery(request);
@@ -51,8 +56,8 @@ public class MySQLCon {
         }
         return rs;
     }
-    
-    public void close(){
+
+    public void close() {
         try {
             rs.close();
             st.close();

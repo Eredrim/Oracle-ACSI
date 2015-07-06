@@ -19,8 +19,8 @@ import javax.swing.ImageIcon;
  */
 public class ArticleManager {
     private static ArticleManager instance = null;
-    protected ArticleManager() {}   //Pour empêcher l'instanciation autrement qu'avec getInstance()
-    public ArticleManager getInstance(){
+    private ArticleManager() {}   //Pour empêcher l'instanciation autrement qu'avec getInstance()
+    public static ArticleManager getInstance(){
         if(instance == null){
             instance = new ArticleManager();
         }
@@ -193,9 +193,9 @@ public class ArticleManager {
         return nbVues;
     }
     
-    public List<Object[]> getAll()
+    public List<Article> getAll()
     {
-        List<Object[]> articles = new ArrayList<>();
+        List<Article> articles = new ArrayList<>();
         MySQLCon connexion = MySQLCon.getInstance();
         
         ResultSet cursor;
@@ -207,12 +207,10 @@ public class ArticleManager {
                 while(!cursor.isAfterLast()){
                     String reference = cursor.getString("ART_REF");
                     String libelle = cursor.getString("ART_LIBELLE");
-                    float prix = cursor.getInt("ART_PRIX");
+                    float prix = cursor.getFloat("ART_PRIX");
                     String description = cursor.getString("ART_DESCRIPTION");
 
-                    //Création de l'image
-                    ImageIcon image = new ImageIcon(reference + ".png");
-                    Object[] article = {reference, libelle, prix, description, image};
+                    Article article = new Article(reference, prix, libelle, description);
                     articles.add(article);
                     cursor.next();
                 }
