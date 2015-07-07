@@ -20,7 +20,7 @@ import oracle.acsi.*;
  *
  * @author clem-62
  */
-public class ConnexionServlet extends HttpServlet {
+public class InscriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,13 +37,16 @@ public class ConnexionServlet extends HttpServlet {
             String codePostal = request.getParameter("cp");
             String password = request.getParameter("password");
 
-            Utilisateur user = new Utilisateur(login, codePostal, password);
-            if (user.authentifier()) {
+            if (Integer.parseInt(codePostal) < 01000 || Integer.parseInt(codePostal) > 97999) {
+                redirect(request, response, "jsp/connexion.jsp?erreur=2");
+            } else {
+                Utilisateur user = new Utilisateur(login, codePostal, password);
+                InscriptionManager.getInstance().inscrire(user);    //Si l'utilisateur n'existe pas il est crée.
+
                 HttpSession session = request.getSession();
                 session.setAttribute("user", login);
-                response.sendRedirect("/index");
-            } else {
-                redirect(request, response, "jsp/connexion.jsp?erreur=2");
+                
+                redirect(request, response, "jsp/index.jsp");
             }
         } catch (Exception e) {
             redirect(request, response, "jsp/connexion.jsp?erreur=1");

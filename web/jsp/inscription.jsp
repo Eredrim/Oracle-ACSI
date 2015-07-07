@@ -6,14 +6,16 @@ if("1".equals(request.getParameter("erreur"))){
     erreur = "Veuillez remplir tous les champs";
 }
 else if("2".equals(request.getParameter("erreur"))){
-    erreur = "Erreur d'authentification";
+    erreur = "Le code postal est invalide";
 }
 %>
-<form method="post" action="connexion">
+<form method="post" action="inscription">
     <label for="login">Identifiant</label>
     <input name="login" type="email"/>&emsp;
     <label for="password">Mot de passe</label>
     <input name="password" type="password"/>&emsp;
+    <label for="cp">Code postal</label>
+    <input name="cp" type="text" style="width: 35px;"/>&emsp;
     <button type="submit">Valider</button>
     <br><br>
     <div style="color: red"><% out.print(erreur); %></div>

@@ -13,7 +13,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ConnexionServlet</servlet-name>
-        <url-pattern>/Connexion</url-pattern>
+        <url-pattern>/connexion</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>

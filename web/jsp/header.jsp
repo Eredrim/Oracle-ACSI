@@ -14,7 +14,7 @@
                     <div id="tHeader1">Mon commerce</div>
                     <div id="tHeader2">Ma boutique en ligne pour acheter plein de choses</div>
                 </div>
-                <a id="connectionLink" href="">Se connecter</a>
+                <a id="connectionLink" href="connexion">Se connecter</a>
             </div>
             <div id="redHR"></div>
             <div id="content">

@@ -57,6 +57,24 @@ public class MySQLCon {
         return rs;
     }
 
+    public int insertRequest(String request) {
+        int idGenere = 0;
+        try {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
+            con = DriverManager.getConnection(url, user, password);
+            st = con.createStatement();
+            idGenere = st.executeUpdate(request, Statement.RETURN_GENERATED_KEYS);
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return idGenere;
+    }
+
     public void close() {
         try {
             rs.close();
