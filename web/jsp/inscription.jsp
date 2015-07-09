@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
-<h1>Connexion</h1>
+<h1>Inscription</h1>
 <% 
     String erreur = "";
 if("1".equals(request.getParameter("erreur"))){
@@ -7,6 +7,9 @@ if("1".equals(request.getParameter("erreur"))){
 }
 else if("2".equals(request.getParameter("erreur"))){
     erreur = "Le code postal est invalide";
+}
+else if("3".equals(request.getParameter("erreur"))){
+    erreur = "Ce compte existe déjà";
 }
 %>
 <form method="post" action="inscription">

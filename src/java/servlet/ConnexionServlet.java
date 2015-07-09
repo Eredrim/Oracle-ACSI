@@ -40,8 +40,8 @@ public class ConnexionServlet extends HttpServlet {
             Utilisateur user = new Utilisateur(login, codePostal, password);
             if (user.authentifier()) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", login);
-                response.sendRedirect("/index");
+                session.setAttribute("user", user);
+                response.sendRedirect("index");
             } else {
                 redirect(request, response, "jsp/connexion.jsp?erreur=2");
             }

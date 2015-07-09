@@ -20,8 +20,6 @@ import java.util.logging.Logger;
 public class MySQLCon {
 
     Connection con = null;
-    Statement st = null;
-    ResultSet rs = null;
 
     final String url = "jdbc:mysql://localhost:3306/reynier";
     final String user = "root";
@@ -40,45 +38,47 @@ public class MySQLCon {
 
     }
 
-    public ResultSet getResult(String request) {
+    public ResultSet getResult(String request) throws SQLException {
+        ResultSet rs = null;
         try {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                System.err.println(e.getMessage());
-            }
-            con = DriverManager.getConnection(url, user, password);
-            st = con.createStatement();
-            rs = st.executeQuery(request);
-
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
         }
+        con = DriverManager.getConnection(url, user, password);
+        Statement st = con.createStatement();
+        rs = st.executeQuery(request);
         return rs;
     }
 
-    public int insertRequest(String request) {
-        int idGenere = 0;
+    public int insertRequest(String request) throws SQLException {
+        int idGenere;
         try {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                System.err.println(e.getMessage());
-            }
-            con = DriverManager.getConnection(url, user, password);
-            st = con.createStatement();
-            idGenere = st.executeUpdate(request, Statement.RETURN_GENERATED_KEYS);
-
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
         }
-        return idGenere;
+        con = DriverManager.getConnection(url, user, password);
+        Statement st = con.createStatement();
+        st.executeUpdate(request);
+        ResultSet keyRs = st.getGeneratedKeys();
+        keyRs.next();
+        return keyRs.getInt(1);
+    }
+
+    public void upDelRequest(String request) throws SQLException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
+        con = DriverManager.getConnection(url, user, password);
+        Statement st = con.createStatement();
+        st.executeUpdate(request);
     }
 
     public void close() {
         try {
-            rs.close();
-            st.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(MySQLCon.class.getName()).log(Level.SEVERE, null, ex);

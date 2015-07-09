@@ -29,7 +29,10 @@ public class Utilisateur {
 
     public Utilisateur() {
     }
-    
+
+    public int getId() {
+        return id;
+    }
     
     public String getEmail() {
         return email;
@@ -62,9 +65,13 @@ public class Utilisateur {
     public boolean authentifier(){
         try {
             MySQLCon connexion = MySQLCon.getInstance();
-            ResultSet resultat = connexion.getResult("Select * from utilisateur where usr_email = '"+this.email+"' and usr_password='"+this.password+"'");
+            ResultSet resultat;
+            resultat = connexion.getResult("Select * from utilisateur where usr_email = '"+this.email+"' and usr_passwd='"+this.password+"';");
             resultat.first();
-            resultat.getInt(1);
+            this.id = resultat.getInt("usr_id");
+            this.admin = resultat.getBoolean("usr_isadmin");
+            this.codePostal = resultat.getString("usr_cp");
+            connexion.close();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(Utilisateur.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,43 +79,4 @@ public class Utilisateur {
         }
     }
     
-    public void inscrire()
-    {
-        MySQLCon connexion = MySQLCon.getInstance();
-
-            int nbRow = 0;
-            
-            //Vérification que l'utilisateur n'existe pas
-            ResultSet resultat = connexion.getResult("SELECT COUNT(*) FROM UTILISATEUR "
-                    + "WHERE USR_ID = '" + this.email +"';");
-            try {
-                resultat.first();
-                nbRow = resultat.getInt(1);
-            } catch (SQLException ex) {
-                Logger.getLogger(InscriptionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if(nbRow <= 0)
-            {
-                //INSERTION
-                this.id = connexion.insertRequest("INSERT INTO UTILISATEUR "
-                        + "(USR_ID, USR_EMAIL, USR_PASSWD, USR_CP, USR_ISADMIN) VALUES("
-                        + this.id + ","
-                        + "'" + this.email + "',"
-                        + "'" + this.password + "',"
-                        + "'" + this.codePostal + "',"
-                        + this.admin
-                        +");");
-
-                //INSERTION DE L'OPERATION
-                connexion.insertRequest("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
-                        + " VALUES("
-                        + "DATE(NOW()), "
-                        + "SUPPR, "
-                        + this.id + ", "
-                        + "NULL"
-                        + ");");
-            }
-            connexion.close();
-    }
 }

@@ -25,7 +25,7 @@ public class InscriptionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        redirect(request, response, "jsp/connexion.jsp");
+        redirect(request, response, "jsp/inscription.jsp");
     }
 
     @Override
@@ -37,19 +37,23 @@ public class InscriptionServlet extends HttpServlet {
             String codePostal = request.getParameter("cp");
             String password = request.getParameter("password");
 
-            if (Integer.parseInt(codePostal) < 01000 || Integer.parseInt(codePostal) > 97999) {
-                redirect(request, response, "jsp/connexion.jsp?erreur=2");
+            if (Integer.parseInt(codePostal) < 01000 || Integer.parseInt(codePostal) > 97699) {
+                redirect(request, response, "jsp/inscription.jsp?erreur=2");
             } else {
-                Utilisateur user = new Utilisateur(login, codePostal, password);
-                InscriptionManager.getInstance().inscrire(user);    //Si l'utilisateur n'existe pas il est crée.
+                Utilisateur user = InscriptionManager.getInstance().inscrireUtilisateur(login, password, codePostal);
+                //Si l'utilisateur n'existe pas il est crée.
 
-                HttpSession session = request.getSession();
-                session.setAttribute("user", login);
-                
-                redirect(request, response, "jsp/index.jsp");
+                if(user == null){
+                    redirect(request, response, "jsp/inscription.jsp?erreur=3");
+                }
+                else{
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    redirect(request, response, "jsp/index.jsp"); 
+                }
             }
         } catch (Exception e) {
-            redirect(request, response, "jsp/connexion.jsp?erreur=1");
+            redirect(request, response, "jsp/inscription.jsp?erreur=1");
         }
     }
 

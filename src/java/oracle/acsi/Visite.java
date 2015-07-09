@@ -14,6 +14,15 @@ public class Visite {
     private String refArticle;
     private float tempsVisite;
 
+    public Visite(int idUtilisateur, String refArticle) {
+        this.idUtilisateur = idUtilisateur;
+        this.refArticle = refArticle;
+    }
+
+    public Visite() {
+    }
+    
+
     public int getIdUtilisateur() {
         return idUtilisateur;
     }

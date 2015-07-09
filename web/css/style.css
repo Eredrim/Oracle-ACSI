@@ -66,3 +66,12 @@ a:hover{
 .miniature > img{
     height: 50px;
 }
+
+.trProduit:hover{
+    background: #ccc;
+    cursor: pointer;
+}
+
+.imgPageArticle{
+    width: 200px;
+}
