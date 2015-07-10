@@ -24,8 +24,8 @@
         <servlet-class>servlet.StatistiquesServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AdminStatsServlet</servlet-name>
-        <servlet-class>servlet.AdminStatsServlet</servlet-class>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>servlet.AdminServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ConnexionServlet</servlet-name>
@@ -48,8 +48,8 @@
         <url-pattern>/statistiques</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AdminStatsServlet</servlet-name>
-        <url-pattern>/adminstats</url-pattern>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

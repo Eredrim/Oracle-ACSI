@@ -5,6 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <title>Mon Commerce</title>
     </head>
     <body>
@@ -19,9 +20,12 @@
                 Utilisateur usr = (Utilisateur) session.getAttribute("user");
                 if(usr == null){%>
                     <a id="connectionLink" href="connexion">Se connecter</a>
-                <%} else {%>
-                <a id="connectionLink" href="connexion">Bienvenue <%out.print(usr.getEmail());%></a>
-                <%}%>
+                <%} else {
+                    if(usr.isAdmin()){ %>
+                        <a id="connectionLink" href="admin">Bienvenue <%out.print(usr.getEmail());%></a>
+                    <%}else{%>
+                    <a id="connectionLink" href="statistiques">Bienvenue <%out.print(usr.getEmail());%></a>
+                <%}}%>
             </div>
             <div id="redHR"></div>
             <div id="content">

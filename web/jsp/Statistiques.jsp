@@ -13,6 +13,7 @@ Calendar c = Calendar.getInstance();   // date du jour
 c.set(Calendar.DAY_OF_MONTH, 1);
 Date premJourMois = c.getTime();
 %>
+<a href=".">Retour à la liste</a>
         <h1>Statistiques</h1>
         <div>
             Nombre total d'inscrits : <% out.print(im.getNbInscrits()); %>
