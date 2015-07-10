@@ -87,7 +87,7 @@ public class InscriptionManager {
             DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             String fDate = sdf.format(date);
             resultat = connexion.getResult("SELECT count(*) FROM GESTION "
-                    + "WHERE GEST_DATE > '" + fDate + "' and gest_op = 'CREA';");
+                    + "WHERE GEST_DATE > '" + fDate + "' and gest_op = 'CREA' and usr_id is not null;");
             resultat.first();
             nbRow = resultat.getInt(1);
         } catch (SQLException ex) {

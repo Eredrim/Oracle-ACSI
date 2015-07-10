@@ -44,22 +44,21 @@ public class ArticleManager {
                         + "WHERE ART_REF LIKE '" + art.getReference() + "';");
                 resultat.first();
                 nbArticles = resultat.getInt(1);
-                if (!(nbArticles > 0)) {
+                if (nbArticles == 0) {
                     //INSERTION
-                    connexion.getResult("INSERT INTO ARTICLE (ART_REF, ART_LIBELLE, ART_DESCRIPTION, ART_PRIX) VALUES"
+                    connexion.upDelRequest("INSERT INTO ARTICLE (ART_REF, ART_LIBELLE, ART_PRIX, ART_DESCRIPTION) VALUES("
                             + "'" + art.getReference() + "',"
                             + "'" + art.getLibelle() + "',"
-                            + "'" + art.getDescription() + "',"
-                            + "'" + art.getPrix() + "'"
+                            + "" + art.getPrix() + ","
+                            + "'" + art.getDescription() + "')"
                             + ";");
 
                     //INSERTION DE L'OPERATION
-                    connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
+                    connexion.insertRequest("INSERT INTO GESTION (GEST_DATE, GEST_OP, ART_REF)"
                             + " VALUES("
-                            + "GETDATE(),"
-                            + "SUPPR,"
-                            + ""//USR_ID,
-                            + art.getReference() + ","
+                            + "DATE(NOW()),"
+                            + "'CREA',"
+                            + "'" + art.getReference() + "'"
                             + ");");
                 }
             } catch (SQLException ex) {
@@ -77,16 +76,14 @@ public class ArticleManager {
                 MySQLCon connexion = MySQLCon.getInstance();
 
                 //SUPPRESSION
-                connexion.getResult("DELETE FROM ARTICLE WHERE ART_REF LIKE '" + refArticle + "';");
+                connexion.upDelRequest("DELETE FROM ARTICLE WHERE ART_REF LIKE '" + refArticle + "';");
 
                 //INSERTION DE L'OPERATION
-                connexion.getResult("INSERT INTO GESTION (GEST_DATE, GEST_OP, USR_ID, ART_REF)"
-                        + " VALUES("
-                        + "GETDATE(),"
-                        + "SUPPR,"
-                        + ""//USR_ID,
-                        + refArticle + ","
-                        + ");");
+                connexion.insertRequest("INSERT INTO GESTION (GEST_ID, GEST_DATE, GEST_OP, ART_REF)"
+                        + " VALUES(NULL, "
+                        + "DATE(NOW()),"
+                        + "'SUPPR',"
+                        + "'" + refArticle + "');");
 
                 connexion.close();
             } catch (SQLException ex) {
@@ -139,10 +136,9 @@ public class ArticleManager {
         ResultSet resultat;
 
         try {
-            resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
-                    + "WHERE A.GEST_ID = G.GEST_ID"
-                    + "AND GEST_OP LIKE 'CREAT'"
-                    + "GROUP BY A.ART_REF;");
+            resultat = connexion.getResult("SELECT COUNT(*) FROM GESTION G"
+                    + " WHERE G.ART_REF IS NOT NULL"
+                    + " AND GEST_OP = 'CREA';");
             resultat.first();
             nbVues = resultat.getInt(1);
         } catch (SQLException ex) {
@@ -160,10 +156,9 @@ public class ArticleManager {
         ResultSet resultat;
 
         try {
-            resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
-                    + "WHERE A.GEST_ID = G.GEST_ID"
-                    + "AND GEST_OP LIKE 'MODIF'"
-                    + "GROUP BY A.ART_REF;");
+            resultat = connexion.getResult("SELECT COUNT(*) FROM GESTION G"
+                    + " WHERE G.ART_REF IS NOT NULL"
+                    + " AND GEST_OP = 'MODIF';");
             resultat.first();
             nbVues = resultat.getInt(1);
         } catch (SQLException ex) {
@@ -181,10 +176,9 @@ public class ArticleManager {
         ResultSet resultat;
 
         try {
-            resultat = connexion.getResult("SELECT COUNT(*) FROM ARTICLE A, GESTION G"
-                    + "WHERE A.GEST_ID = G.GEST_ID"
-                    + "AND GEST_OP LIKE 'SUPPR'"
-                    + "GROUP BY A.ART_REF;");
+            resultat = connexion.getResult("SELECT COUNT(*) FROM GESTION G"
+                    + " WHERE G.ART_REF IS NOT NULL"
+                    + " AND GEST_OP = 'SUPPR';");
             resultat.first();
             nbVues = resultat.getInt(1);
         } catch (SQLException ex) {
